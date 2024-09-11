@@ -5,8 +5,10 @@
   "repository": "https://github.com/keonsoonpark4798/Itemsimulator.git",
   "author": "keonsoonpark4798 <98qkrrjstns@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.20.0",
     "jsonwebtoken": "^9.0.2",

@@ -14,13 +14,13 @@ datasource db {
 }
 
 model Users{
-  ID Int @id @default(autoincrement()) @map("ID")   // 자동으로 증가하게 만든 ID 필드 이름을 바꿀지는 모르겠지만 일단 @map으로 적어놓기
-  userId  String @map("userId") @unique   // 고유값 아이디
+  Id Int @id @default(autoincrement()) @map("Id")   // 자동으로 증가하게 만든 ID 필드 이름을 바꿀지는 모르겠지만 일단 @map으로 적어놓기
+  userId  String @unique @map("userId")   // 고유값 아이디
   password String @map("password")
   name String @map("name")   // 유저 이름
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
-  //characters JSON? @map("characters")
+  //characters Json? @map("characters")
 
   character   Character[] // Users 테이블과 Character 테이블이 1:N 관계를 맺습니다.
 
@@ -29,18 +29,18 @@ model Users{
 
 model Character{
   characterId Int @id @default(autoincrement()) @map("characterId")
-  userId Int @map("userId")   // 사용자(Users) 테이블을 참조하는 외래키
-  charactername String @map("charactername")
-  health  INT @map("health")
-  power  INT @map("power")
-  money  INT @map("money")
-  inventory JSON? @map("inventory")
-  equippedItems JSON? @map("equippedItems")
+  Id Int @map("Id")   // 사용자(Users) 테이블을 참조하는 외래키
+  charactername String @unique @map("charactername")
+  health  Int @map("health")
+  power  Int @map("power")
+  money  Int @map("money")
+  inventory Json? @map("inventory")
+  equippedItems Json? @map("equippedItems")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
 
   // Users 테이블과 관계를 설정합니다.
-  user Users @relation(fields:[userId], references: [userId], onDelete:Cascade)
+  user Users @relation(fields:[Id], references: [Id], onDelete:Cascade)
   @@map("Character")
 }
 
@@ -59,7 +59,7 @@ model ItemStat{
   itemStatId Int @id @default(autoincrement()) @map("itemStatId")
   bonusHealth Int? @map("bonusHealth")
   bonusPower Int? @map("bonusPower")
-  itemId Int @id @map("itemId")   // 외래키
+  itemId Int @unique @map("itemId")   // 외래키
 
   item Item @relation(fields:[itemId], references: [itemId], onDelete:Cascade)  // 아이템이 삭제되면 같이 삭제되게
   @@map("ItemStat")
