@@ -43,14 +43,42 @@ router.post('/characters', authMiddleware, async (req, res, next) => {
 
 
 /** 사용자 캐릭터 조회 API **/
+router.get('/characters/:characterId', authMiddleware, async (req, res, next) => {
+    try {
+        const { Id } = req.user;
+        const { characterId } = req.params;
+        let booleanData = true;
 
+        const isMycharacter = await prisma.character.findFirst({
+            where: {
+                characterId: +characterId, Id: +Id
+            },
+        });
+
+        if (!isMycharacter) {
+            booleanData = false;
+        }
+        const character = await prisma.character.findFirst({
+            where: { characterId: +characterId },
+            select: {
+                charactername: true,
+                health: true,
+                power: true,
+                money: booleanData
+            },
+        });
+
+        return res.status(200).json({ data: character });
+    } catch (err) {
+        next(err);
+    }
+});
 
 /** 사용자 캐릭터 삭제 API **/
 router.delete('/characters/:characterId', authMiddleware, async (req, res, next) => {
     try {
         const { Id } = req.user;
         const { characterId } = req.params;
-        console.log(characterId);
 
         const isMycharacter = await prisma.character.findFirst({
             where: {
