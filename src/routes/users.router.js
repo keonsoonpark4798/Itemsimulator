@@ -65,11 +65,10 @@ router.post('/sign-in', async (req, res, next) => {
         {
             userId: user.userId,
         },
-        'custom-secret-key'
+        process.env.SECRET_KEY
     );
-    console.log(token);
-    // authotization 쿠키에 Berer 토큰 형식으로 JWT를 저장합니다.
-    res.cookie('authorization', `Bearer ${token}`);
+    res.header('authorization', `${process.env.TOKEN_TYPE} ${token}`);
+
     return res.status(200).json({ message: '로그인 성공' });
 });
 
