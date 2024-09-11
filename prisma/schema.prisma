@@ -45,22 +45,22 @@ model Character{
 }
 
 model Item {
-  itemId Int @id @map("itemId")
-  itemContent String? @db.Text @map("itemContent")
-  itemPrice Int @map("itemPrice")
+  item_code Int @id @map("item_code")
+  item_name String @map("item_name")
+  item_price Int @map("item_price")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
 
   itemStat ItemStat? // 아이템 테이블과 아이템 정보 테이블은 1:1 관계
-  @@map("Comments")
+  @@map("Item")
 }
 
 model ItemStat{
   itemStatId Int @id @default(autoincrement()) @map("itemStatId")
   bonusHealth Int? @map("bonusHealth")
   bonusPower Int? @map("bonusPower")
-  itemId Int @unique @map("itemId")   // 외래키
+  item_code Int @unique @map("item_code")   // 외래키
 
-  item Item @relation(fields:[itemId], references: [itemId], onDelete:Cascade)  // 아이템이 삭제되면 같이 삭제되게
+  item Item @relation(fields:[item_code], references: [item_code], onDelete:Cascade)  // 아이템이 삭제되면 같이 삭제되게
   @@map("ItemStat")
 }
